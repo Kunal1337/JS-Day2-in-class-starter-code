@@ -5,8 +5,14 @@ const car = [{make:"Toyota", model:"Prius", color:"Silver"},
              {make:"Chevy", model:"Bolt", color:"Blue"}, 
              {make:"Honda", model:"Civic", color:"White"}];
 const today = new Date();
+const year = today.getFullYear();
+
 const loggedIn = true;
 
+
+
+
+document.getElementById("1").innerHTML += "<p>The reason why we use let over var is because var is scope blocked. this can cause logic errors in the code uintentionally. </p>"
 
 
 /////// PART 1 - Variables and Data Types demo///////
@@ -33,12 +39,6 @@ function testLet(){
   console.log(a);
 }
 
-console.log(a);
-console.log(b);
-console.log("Example using var");
-testVar();
-console.log("Example using LET");
-testLet();
 // When you are done with this section you can comment out the console.logs above
 
 
@@ -51,13 +51,14 @@ const result2Element = document.getElementById('result2');
 
 ////starter code////
 //update code below to using template literals (not concatenation) to pull in the variables myName, color, make, into output
-result2Element.innerHTML = "Hello my name is {yourname} and I drive a {White Honda Civic}";
+let firstCar = car[0]
+result2Element.innerHTML = `Hello my name is ${myName} and I drive a ${firstCar.color} ${firstCar.model} ${firstCar.make}`;
 
 
 //Footer Section
 const footerElement = document.getElementById("footer");
 //update code below to use template literals to pull in the myName and the current year
-footerElement.innerHTML = "&copy; Clint Tuttle 2024";
+footerElement.innerHTML = `&copy; ${myName} ${year}`;
 
 
 
@@ -65,14 +66,9 @@ footerElement.innerHTML = "&copy; Clint Tuttle 2024";
 
 //////// PART 3 - Ternary Operator////////
 ////section 1 - basic if else statement
-if (loggedIn) {
-    const result3Element = document.getElementById('result3');
-    result3Element.innerHTML = "Welcome back!";
-} else {
-    const result3Element = document.getElementById('result3');
-    result3Element.innerHTML = "Please log in";
-}
 
+
+loggedIn ? document.getElementById('result3').innerHTML = "Welcome back!" : document.getElementById('result3').innerHTML = "Please Log in";
 ////Sample code.  You can uncomment this to see how simple a ternaly operator can be
 // loggedIn ? alert("welcome back") : alert("please log in");
 
@@ -80,14 +76,14 @@ if (loggedIn) {
 
 
 
-
+let GreetingsArrow = name => console.log(`Hello ${name}!`);
 
 //////// PART 4 - Arrow Functions////////
 function Greetings(name) {
     return `Hello ${name}!`;
 };
 
-console.log(Greetings("Clint"));
+console.log(GreetingsArrow("Clint"));
 
 //Make a copy of the above function and rename it GreetingsArrow() and then convert function to an arrow function here
  
@@ -113,6 +109,22 @@ function printFruit() {
     }
 
  }
+
+function printFruit() {
+  let resultElement = document.getElementById("result5");
+  resultElement.textContent = "";
+
+  fruits
+    .filter(fruit => fruit.startsWith("b"))   // only keep fruits that start with 'b'
+    .map(fruit => {
+      resultElement.textContent += fruit + " "; // add each to the result element
+    });
+}
+
+
+
+
+
  
  
  function clearText() {
@@ -128,10 +140,8 @@ function printFruit() {
  myCar(car[0]);
 
  function myCar(car) {
-     var make = car.make;
-     var model = car.model;
-     var color = car.color;
- 
+    const { make, model, color } = car;
+
      var message = `I drive a ${color} ${make} ${model}`;
    
      document.getElementById("result6").textContent = message;
@@ -163,14 +173,11 @@ const baseProduct = {
   
   // Merge basePrduct and Seasonal using spread operator and add lastUpdated property with a value of '2023-12-31'
   ///UPDATE THIS CODE
-  const currentProduct = { 
-
-};
-  
-  //Check the result object in the console:
-  console.log(currentProduct);
+   objDate = {lastUpdated: "2023-12-31"}
+  const currentProduct= { ...baseProduct, ...holidayPromo, ...objDate};
   //UPDATE THIS OUTPUT
-  document.getElementById("result7").textContent = `The .....`; 
+    document.getElementById("result7").textContent = `the ${currentProduct.name} are on sale for ${currentProduct.price} as of ${currentProduct.lastUpdated}.`;
+
 
 
 
@@ -180,19 +187,36 @@ const baseProduct = {
  function InputValidation() {
     const message = document.getElementById("part8-p");
     message.innerHTML = "";
-    
+
     let x = document.getElementById("part8-input").value;
-    
-    try { 
-  
-    }
-    catch(err) {
-     } 
-    finally {
+
+    try {
+        if (x.trim() === "") {
+            // Empty input
+            throw "Input is EMPTY";
+        }
+        let num = Number(x); // convert string to number
+        if (isNaN(num)) {
+            // Not a number
+            throw "Input is NOT A NUMBER";
+        }
+
+        if (num < 10) {
+            throw "Input is TOO LOW";
+        }
+
+        if (num > 15) {
+            throw "Input is TOO HIGH";
+        }
+        message.innerHTML = "Success";
+    } catch (err) {
+        // Display the  message
+        message.innerHTML = err;
+    } finally {
+        
 
     }
+}
 
-    
-  }
 
 
